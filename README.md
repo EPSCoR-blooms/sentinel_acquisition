@@ -27,6 +27,9 @@ Workflow:
  - 'download_extract.R' - this script will download and extract the flyover dates for the EPSCoRBlooms lakes for Sentinel 2a and 2b if sourced by the 'check_source_save.R' script.
 
 
-Folder and file descriptions:
+Additional folder and file descriptions:
+    - archive: this folder contains previous acquisition schedules that are outdated or updated
+    - checkdates: this folder contains the RDS files of the current Sentinel acqusition .kml files to check for updates
+    - shapefiles: this folder contains a .gdb of the EPSCoRBlooms lakes shapefiles. This is a copy of the file in DartFS.
 
 
