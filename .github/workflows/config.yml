@@ -1,0 +1,47 @@
+name: download and collate dam data
+
+#when it should run
+on:
+  schedule:
+    - cron: "* 5 * * *" #run everyday at utc 5
+
+#create jobs    
+jobs:
+  sent: 
+    runs-on: windows-latest
+    
+    steps: 
+
+    # load repo
+    - uses: actions/checkout@master
+
+    # setup r
+    - uses: r-lib/actions/setup-r@master
+
+    # install packages
+    - name: Install packages
+      run: |
+        install.packages('rvest')
+        install.packages('stringr')
+        install.packages('sf')
+        install.packages('rgdal')
+        install.packages('xml2')
+        install.packages('tidyverse')
+        install.packages('lubridate')
+      shell: Rscript {0}
+
+    # run script
+    - name: Check for new acquisition .kml files, download and collate if present
+      run: |
+        source('setup_and_source.R')
+      shell: Rscript {0}
+
+    #commit files to GH  
+    - name: Commit files
+      run: |
+        git config --local user.name steeleb
+        git config --local user.email "steeleb@caryinstitute.org"
+        git add EPSCoRBlooms_Sentinel_future*
+        git add archive/*
+        git commit -am "gh action sentinel acquisition download $(date)"
+        git push origin main
