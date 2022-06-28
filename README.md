@@ -29,8 +29,8 @@ File column definitions:
 
 
 ## Additional folder and file descriptions:
-    - archive: this folder contains previous acquisition schedules that are outdated or updated
-    - checkdates: this folder contains the RDS files of the current Sentinel acqusition .kml files to check for updates
-    - shapefiles: this folder contains a .gdb of the EPSCoRBlooms lakes shapefiles. This is a copy of the file in DartFS.
+- archive: this folder contains previous acquisition schedules that are outdated or updated
+- checkdates: this folder contains the RDS files of the current Sentinel acqusition .kml files to check for updates
+- shapefiles: this folder contains a .gdb of the EPSCoRBlooms lakes shapefiles. This is a copy of the file in DartFS.
 
 
