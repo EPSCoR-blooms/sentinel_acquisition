@@ -16,7 +16,25 @@ epscor_lakes = rbind(me_lakes, nh_lakes) %>%
 epscor_lakes = st_transform(epscor_lakes,crs = 'EPSG:4326')
 
 epscor_lakes_meta = st_drop_geometry(epscor_lakes) %>% 
-  select('OBJECTID', 'Permanent_', 'GNIS_Name')
+  select('OBJECTID', 'Permanent_', 'GNIS_Name') %>% 
+  mutate(LakeName = case_when(GNIS_Name == 'The Basin' ~ 'Lake Auburn',
+                              GNIS_Name == 'Custer Pond' ~ 'Sabattus Pond',
+                              GNIS_Name == 'Sunapee Lake' ~ 'Lake Sunapee',
+                              GNIS_Name == 'Wateree Lake' ~ 'Lake Wateree',
+                              TRUE ~ GNIS_Name),
+         LakeID = case_when(LakeName == 'Lake Auburn' ~ 'AUB',
+                            LakeName == 'Great Pond' ~ 'GRT',
+                            LakeName == 'Long Pond' ~ 'LNG',
+                            LakeName == 'Panther Pond' ~ 'PAN',
+                            LakeName == 'Sabattus Pond' ~ 'SAB',
+                            LakeName == 'China Lake' ~ 'CHN',
+                            LakeName == 'Lake Sunapee' ~ 'SUN',
+                            LakeName == 'Indian Lake' ~ 'IND',
+                            LakeName == 'Yawgoo Pond' ~ 'YAW',
+                            LakeName == 'Barber Pond' ~ 'BAR',
+                            LakeName == 'Lake Murray' ~ 'MUR',
+                            LakeName == 'Lake Wateree' ~ 'WAT',
+                            TRUE ~ NA_character_))
 
 # SENTINEL DOWNLOAD AND EXTRACT ----
 
@@ -169,6 +187,6 @@ if(length(download_2b>0)){
 sentdates <- full_join(sent2a_dates, sent2b_dates) %>% 
   arrange(acquisition_date, acquisition_hour)
 
-write.csv(sentdates, paste0('EPSCoRBlooms_Sentinel_future_acquistion_v', Sys.Date(), '.csv'))
+write.csv(sentdates, paste0('EPSCoRBlooms_Sentinel_future_acquistion_v', Sys.Date(), '.csv'), row.names = F)
 
 unlink(tmp, recursive = T)
