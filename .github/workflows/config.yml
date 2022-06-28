@@ -1,4 +1,4 @@
-name: download and collate dam data
+name: check for new Sentinel planned acquisitions
 
 #when it should run
 on:
