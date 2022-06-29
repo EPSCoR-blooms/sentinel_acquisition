@@ -3,7 +3,7 @@ name: check for new Sentinel planned acquisitions
 #when it should run
 on:
   schedule:
-    - cron: "* 5 * * *" #run everyday at utc 5
+    - cron: "0 5 * * *" #run everyday at utc 5
 
 #create jobs    
 jobs:
@@ -33,7 +33,7 @@ jobs:
     # run script
     - name: Check for new acquisition .kml files, download and collate if present
       run: |
-        source('setup_and_source.R')
+        source('check_source_save.R')
       shell: Rscript {0}
 
     #commit files to GH  
