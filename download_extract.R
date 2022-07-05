@@ -38,6 +38,9 @@ epscor_lakes_meta = st_drop_geometry(epscor_lakes) %>%
 
 # SENTINEL DOWNLOAD AND EXTRACT ----
 
+# read in current list
+current <- read.csv(list.files(pattern = 'future'))
+
 #create a composite sf layer and grab all the extended metadata in the kml file
 if(length(download_2a)>0){
   for(i in 1:length(list2a_files)){
@@ -95,7 +98,7 @@ if(length(download_2a)>0){
       mutate(datetime = as.POSIXct(ObservationTimeStart, tz = 'UTC', format = '%Y-%m-%dT%H:%M:%S'),
              local_datetime = with_tz(datetime, 'Etc/GMT+5'),
              acquisition_date = format(local_datetime, '%Y-%m-%d'),
-             acquisition_hour = format(local_datetime, '%H')) %>% 
+             acquisition_hour = as.numeric(format(local_datetime, '%H'))) %>% 
       select(ID, acquisition_date, acquisition_hour, OBJECTID) %>% 
       left_join(., epscor_lakes_meta) %>% 
       mutate(source = list2a_files[i],
@@ -109,6 +112,9 @@ if(length(download_2a)>0){
     }
     
   }
+} else {
+  sent2a_dates = current %>% 
+    filter(grepl('2a', sat))
 }
 
 #create a composite sf layer and grab all the extended metadata in the kml file
@@ -168,7 +174,7 @@ if(length(download_2b>0)){
       mutate(datetime = as.POSIXct(ObservationTimeStart, tz = 'UTC', format = '%Y-%m-%dT%H:%M:%S'),
              local_datetime = with_tz(datetime, 'Etc/GMT+5'),
              acquisition_date = format(local_datetime, '%Y-%m-%d'),
-             acquisition_hour = format(local_datetime, '%H')) %>% 
+             acquisition_hour = as.numeric(format(local_datetime, '%H'))) %>% 
       select(ID, acquisition_date, acquisition_hour, OBJECTID) %>% 
       left_join(., epscor_lakes_meta)%>% 
       mutate(source = list2b_files[i],
@@ -182,7 +188,10 @@ if(length(download_2b>0)){
     }
     
   }
-}
+} else {
+    sent2b_dates = current %>% 
+      filter(grepl('2b', sat))
+  }
 
 sentdates <- full_join(sent2a_dates, sent2b_dates) %>% 
   arrange(acquisition_date, acquisition_hour)
