@@ -4,6 +4,8 @@ name: check for new Sentinel planned acquisitions
 on:
   schedule:
     - cron: "0 5 * * *" #run everyday at utc 5
+  push:
+    - branch: main
 
 #create jobs    
 jobs:
@@ -23,7 +25,7 @@ jobs:
       run: |
         install.packages('rvest')
         install.packages('stringr')
-        install.packages('sf')
+        install.packages('sf', dependencies = T)
         install.packages('rgdal')
         install.packages('xml2')
         install.packages('tidyverse')
