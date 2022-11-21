@@ -2,8 +2,8 @@ name: check for new Sentinel planned acquisitions
 
 #when it should run
 on:
-  schedule:
-    - cron: "0 5 * * *" #run everyday at utc 5
+  #schedule:
+  #  - cron: "0 5 * * *" #run everyday at utc 5
   push:
     branches: main
 
